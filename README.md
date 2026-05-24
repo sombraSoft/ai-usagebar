@@ -276,15 +276,9 @@ Key bindings inside the overlay:
 
 Save writes to `~/.config/ai-usagebar/config.toml` via `toml_edit` so your existing comments and unrelated fields are preserved. The file is automatically `chmod 600`ed on save, so inline keys aren't world-readable.
 
-> **Note:** the Waybar widget caches its module output for up to its `interval` (default 300s), so changing primary in Settings won't refresh the bar text immediately. Either wait for the next tick, or kick the bar manually:
->
-> ```bash
-> pkill -SIGRTMIN+13 waybar      # if your module config has `signal: 13`
-> # or:
-> pkill -SIGUSR2 waybar           # full waybar config reload (heavier)
-> ```
->
-> The TUI itself refreshes automatically after a save — only the bar needs the kick. (A future release will auto-fire the signal from the Settings save so this becomes invisible.)
+After save, the Settings overlay automatically fires `SIGRTMIN+13` so any Waybar module configured with `signal: 13` refreshes immediately — no need to wait for the next 300s interval tick or kick the bar by hand. The TUI's own tabs also re-fetch right away so a freshly-set API key takes effect on the spot.
+
+If your module doesn't use `signal: 13`, the signal is a no-op and the bar will refresh on its next normal tick (up to `interval` seconds away). To force-refresh manually: `pkill -SIGUSR2 waybar` (full reload).
 
 ## Theming
 

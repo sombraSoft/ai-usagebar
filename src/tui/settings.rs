@@ -276,13 +276,22 @@ fn handle_input(input: &mut KeyInput, code: KeyCode) {
     }
 }
 
-/// Save to `~/.config/ai-usagebar/config.toml` (or create it).
+/// Save to `~/.config/ai-usagebar/config.toml` (or create it). On success,
+/// signal a running Waybar process (SIGRTMIN+13) so any module configured
+/// with `signal: 13` refreshes its exec output immediately — otherwise the
+/// bar text wouldn't reflect a new primary vendor until the next interval
+/// tick (up to 300s).
 fn save_to_config_default(state: &SettingsState) -> Result<()> {
     let path = default_config_path()?;
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent).map_err(|e| AppError::io_at(parent, e))?;
     }
-    save_to_path(state, &path)
+    save_to_path(state, &path)?;
+    // Best-effort: no waybar running → pkill fails silently, no harm.
+    let _ = std::process::Command::new("pkill")
+        .args(["-RTMIN+13", "waybar"])
+        .status();
+    Ok(())
 }
 
 /// Same as `save_to_config_default` but with an explicit path — exposed
