@@ -106,7 +106,7 @@ fn draw_footer(f: &mut Frame, app: &App, area: ratatui::layout::Rect) {
         Span::styled("[q]", Style::default().fg(accent(&app.theme))),
         Span::styled(" quit", Style::default().fg(dim_color)),
         Span::styled(
-            format!("   ·   updated {}", app.last_refresh.format("%H:%M:%S")),
+            format!("   ·   updated {}", app.last_refresh.with_timezone(&chrono::Local).format("%H:%M:%S")),
             Style::default().fg(dim_color),
         ),
     ]);

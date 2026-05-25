@@ -90,7 +90,7 @@ pub fn sections_for(tab: &TabState, now: DateTime<Utc>, pace_tolerance: u32) -> 
             let updated = match cache_age {
                 Some(age) => {
                     let when = now - chrono::Duration::from_std(*age).unwrap_or_default();
-                    when.format("Updated %H:%M:%S").to_string()
+                    when.with_timezone(&chrono::Local).format("Updated %H:%M:%S").to_string()
                 }
                 None => "Updated —".into(),
             };

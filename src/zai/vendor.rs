@@ -171,7 +171,7 @@ fn render_tooltip(
     let updated = match outcome.cache_age {
         Some(age) => {
             let when = now - chrono::Duration::from_std(age).unwrap_or_default();
-            when.format("%H:%M").to_string()
+            when.with_timezone(&chrono::Local).format("%H:%M").to_string()
         }
         None => "—".to_string(),
     };
