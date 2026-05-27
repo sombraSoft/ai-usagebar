@@ -9,12 +9,19 @@ Each release is also published at
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.0.0-rc1] — 2026-05-27
+
 ### Changed
 
 - **Release notes** — `release.yml` now extracts the matching
   `CHANGELOG.md` section into the GitHub Release body and appends a
   `Full diff` compare link against the previous tag. Replaces the
   prior install-and-checksums-only body.
+
+  This demo entry exists only to render the new "What's changed" block
+  for reviewers of [PR #3](https://github.com/akitaonrails/ai-usagebar/pull/3).
 
 ## [0.4.1] — 2026-05-26
 
