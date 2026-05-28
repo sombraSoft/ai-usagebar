@@ -233,6 +233,14 @@ jobs:
           sed -i "s/^sha256sums_x86_64=.*/sha256sums_x86_64=('$X86_SHA')/" packaging/aur/PKGBUILD-bin
           sed -i "s/^sha256sums_aarch64=.*/sha256sums_aarch64=('$ARM_SHA')/" packaging/aur/PKGBUILD-bin
 
+          # deploy-aur copies pkgbuild verbatim (preserves filename). The AUR
+          # bin repo tracks a file literally named `PKGBUILD`, so stage the
+          # `-bin` variant under that name. Without this, makepkg generates
+          # .SRCINFO from the stale PKGBUILD and pushes an empty commit (the
+          # mode that bit us in v0.4.4 — see CHANGELOG).
+          mkdir -p staging/bin
+          cp packaging/aur/PKGBUILD-bin staging/bin/PKGBUILD
+
       - name: Check AUR_SSH_KEY presence
         id: aur_key
         env:
@@ -266,7 +274,7 @@ jobs:
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.2
         with:
           pkgname: ai-usagebar-bin
-          pkgbuild: ./packaging/aur/PKGBUILD-bin
+          pkgbuild: ./staging/bin/PKGBUILD
           commit_username: AkitaOnRails (GitHub Actions)
           commit_email: boss@akitaonrails.com
           ssh_private_key: ${{ secrets.AUR_SSH_KEY }}

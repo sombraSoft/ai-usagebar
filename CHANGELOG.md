@@ -11,6 +11,25 @@ Each release is also published at
 
 Nothing yet.
 
+## [0.4.5] — 2026-05-28
+
+### Fixed
+
+- **AUR-bin CI publish was pushing empty commits.** The
+  `KSXGitHub/github-actions-deploy-aur` action copies the file at
+  `pkgbuild:` into the AUR repo verbatim — preserving the source
+  filename. The AUR-bin remote only tracks a file literally named
+  `PKGBUILD`, so passing `./packaging/aur/PKGBUILD-bin` landed the
+  bumped file alongside (untracked) while leaving the stale `PKGBUILD`
+  intact. Result: `makepkg --printsrcinfo` ran against the old file,
+  generated an identical `.SRCINFO`, and the action committed an
+  empty bump (`allow_empty_commits: true` by default). v0.4.4's bin
+  push went through (`055b104..6bc8a68`) but never advanced the
+  version — AUR-bin stayed at 0.4.3 even though all four other
+  channels (GitHub Release, crates.io, source AUR, source tag) shipped
+  0.4.4. Fix: stage the `-bin` variant under a literal `PKGBUILD`
+  filename before handing it to the action.
+
 ## [0.4.4] — 2026-05-28
 
 ### Changed
@@ -281,7 +300,8 @@ vendors. Highlights:
 - Live API smoke test suite (`make smoke`) that exercises the real
   undocumented endpoints to detect schema drift before users do.
 
-[Unreleased]: https://github.com/akitaonrails/ai-usagebar/compare/v0.4.4...HEAD
+[Unreleased]: https://github.com/akitaonrails/ai-usagebar/compare/v0.4.5...HEAD
+[0.4.5]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.5
 [0.4.4]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.4
 [0.4.3]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.3
 [0.4.2]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.2
