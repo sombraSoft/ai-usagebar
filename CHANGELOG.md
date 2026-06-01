@@ -11,6 +11,14 @@ Each release is also published at
 
 Nothing yet.
 
+## [0.5.1] — 2026-06-01
+
+### Changed
+
+- Documented optional Waybar CSS padding for `custom/aibar` when themes place
+  it next to tray expander modules such as Omarchy's `group/tray-expander`
+  / `custom/expand-icon`.
+
 ## [0.5.0] — 2026-05-30
 
 ### Added
@@ -321,7 +329,8 @@ vendors. Highlights:
 - Live API smoke test suite (`make smoke`) that exercises the real
   undocumented endpoints to detect schema drift before users do.
 
-[Unreleased]: https://github.com/akitaonrails/ai-usagebar/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/akitaonrails/ai-usagebar/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.5.1
 [0.5.0]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.5.0
 [0.4.5]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.5
 [0.4.4]: https://github.com/akitaonrails/ai-usagebar/releases/tag/v0.4.4

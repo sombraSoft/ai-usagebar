@@ -369,11 +369,9 @@ fn render_section(f: &mut Frame, area: Rect, theme: &Theme, s: &Section) {
             ));
             f.render_widget(Paragraph::new(left_line), area);
             if let Some(rt) = right {
-                let right_line = Line::from(Span::styled(
-                    format!("{rt}  "),
-                    Style::default().fg(dim),
-                ))
-                .right_aligned();
+                let right_line =
+                    Line::from(Span::styled(format!("{rt}  "), Style::default().fg(dim)))
+                        .right_aligned();
                 f.render_widget(Paragraph::new(right_line), area);
             }
         }
